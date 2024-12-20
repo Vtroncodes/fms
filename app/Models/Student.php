@@ -3,26 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Student extends Model
+class Student extends Authenticatable
 {
     use HasFactory;
 
+    protected $guard = "student";
+
     protected $fillable = [
-
-        'name',
-        'class_id',
         'section_id',
-        'email'
-
+        'class_id',
+        'name',
+        'email',
+        'address',
+        'phone_number',
     ];
-    public function sections()
+
+    public function class ()
+    {
+        // php artisan migrate:fresh --seed
+        return $this->belongsTo(Classes::class, 'class_id');
+    }
+
+    public function section()
     {
         return $this->belongsTo(Section::class);
-    }
-    public function class()
-    {
-        return $this->belongsTo(Classes::class, 'class_id');
     }
 }

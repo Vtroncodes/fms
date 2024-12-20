@@ -8,23 +8,29 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->foreignid('class_id')->constrained('Classes');
-            $table->foreignid('section_id')->constrained();
-            $table->string('name');
-            $table->string('email');
+            $table->foreignId('section_id')->constrained('sections');
+            $table->foreignId('class_id')->constrained('classes');
+            $table->string('name')->default('Student name');
+            $table->string('email')->default('student@example.com');
+            $table->string('address')->default('address');
+            $table->string('phone_number')->default('null');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('students');
     }
